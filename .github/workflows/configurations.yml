@@ -1,0 +1,33 @@
+name: Great Learning Action
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [$default-branch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      # Add these steps to build and push Docker image
+      - name: Build and push Docker Image
+        uses: mr-smithers-excellent/docker-build-push@v4
+        with:
+          image: gaurav122k/im1
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
